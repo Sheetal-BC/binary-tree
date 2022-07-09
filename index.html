@@ -8,70 +8,118 @@
 </head>
 <body>
     <script>
-class Node {
-    constructor(value) {
-        this.value = value;
-        this.left = null;
-        this.right = null;
+// class Node {
+//     constructor(value) {
+//         this.value = value;
+//         this.left = null;
+//         this.right = null;
+//     }
+// }
+
+// class BinaryTree {
+//     constructor() {
+//         this.root = null;
+//     }
+
+//     insert(value) {
+//         let newNode = new Node(value);
+//         if (this.root == null) {
+//             this.root = newNode;
+//         } else {
+//             let currentNode = this.root;
+//             while (true) {
+//                 if (value < currentNode.value) {
+//                     if (!currentNode.left) {
+//                         currentNode.left = newNode;
+//                         return this;
+//                     }
+//                     currentNode = currentNode.left;
+//                 } else {
+//                     if (value > currentNode.value) {
+//                         if (!currentNode.right) {
+//                             currentNode.right = newNode;
+//                             return this;
+//                         }
+//                         currentNode = currentNode.right;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     search(value) {
+//         let currentNode = this.root;
+
+//         while (currentNode) {
+//             if (currentNode.value == value)
+//                 return currentNode;
+
+//             if (value < currentNode.value) {
+//                 currentNode = currentNode.left;
+//             } else {
+//                 currentNode = currentNode.right;
+//             }
+
+//         }
+//     }
+// }
+
+// const tree = new BinaryTree();
+// tree.insert(9)
+// tree.insert(4)
+// tree.insert(6)
+
+// tree.search(7);
+// console.log(tree)
+
+class Pair{
+    constructor(node, state){
+        this.node = node;
+        this.state = state;
     }
 }
-
-class BinaryTree {
-    constructor() {
-        this.root = null;
-    }
-
-    insert(value) {
-        let newNode = new Node(value);
-        if (this.root == null) {
-            this.root = newNode;
-        } else {
-            let currentNode = this.root;
-            while (true) {
-                if (value < currentNode.value) {
-                    if (!currentNode.left) {
-                        currentNode.left = newNode;
-                        return this;
-                    }
-                    currentNode = currentNode.left;
-                } else {
-                    if (value > currentNode.value) {
-                        if (!currentNode.right) {
-                            currentNode.right = newNode;
-                            return this;
-                        }
-                        currentNode = currentNode.right;
-                    }
-                }
+preorderTraversal(root) {
+    let ans = [];
+    let st = []; // stack
+    root != null && st.push(new Pair(root, 1));
+    
+    while(st.length > 0){
+        let top = st[st.length - 1];
+        
+        if(top.state == 1){
+            ans.push(top.node.val);
+            top.state++;
+            if(top.node.left != null){
+                st.push(new Pair(top.node.left, 1))
             }
+        } else if(top.state == 2){
+            top.state++;
+            if(top.node.right != null){
+                st.push(new Pair(top.node.right, 1))
+            }
+        } else{
+            st.pop();
         }
     }
-    search(value) {
-        let currentNode = this.root;
-
-        while (currentNode) {
-            if (currentNode.value == value)
-                return currentNode;
-
-            if (value < currentNode.value) {
-                currentNode = currentNode.left;
-            } else {
-                currentNode = currentNode.right;
-            }
-
-        }
-    }
-}
-
-const tree = new BinaryTree();
-tree.insert(9)
-tree.insert(4)
-tree.insert(6)
-
-tree.search(7);
-console.log(tree)
+    return ans;
+};
+let pair = new Pair();
+pair.preorderTraversal(1,null,2,3);
 
 
+var preorderTraversal = function(root) {
+    return traversal(root, []);
+};
+
+function traversal(root, result) {
+    if(!root) return [];
+
+    result.push(root.val);
+
+    traversal(root.left, result);
+    traversal(root.right, result);
+    
+    return result;
+ }
 
 
     </script>
